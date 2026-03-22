@@ -1,26 +1,99 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #030a0f;
+  --panel: #060f17;
+  --panel2: #081420;
+  --border: rgba(0, 212, 255, 0.13);
+  --accent: #00d4ff;
+  --accent2: #ff2d55;
+  --accent3: #00ff88;
+  --accent4: #ffaa00;
+  --text: #b8e4f5;
+  --text-dim: #3d6880;
+  --glow: 0 0 10px rgba(0,212,255,0.4), 0 0 30px rgba(0,212,255,0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  height: 100%;
+  overflow: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Scanlines overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.012) 2px,
+    rgba(0, 212, 255, 0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Grid background */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
 }
+
+/* Custom scrollbars */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* Orbitron font utility */
+.font-orbitron { font-family: 'Orbitron', monospace; }
+.font-mono-cyber { font-family: 'Share Tech Mono', monospace; }
+
+/* Panel base */
+.cyber-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+/* Glow text */
+.glow-text {
+  text-shadow: var(--glow);
+}
+
+/* Pulse animation */
+@keyframes cyber-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes cyber-glitch {
+  0%, 100% { transform: none; }
+  20% { transform: skewX(-1deg); }
+  40% { transform: skewX(1deg) translateX(-2px); }
+  60% { transform: none; }
+}
+
+.animate-pulse-slow {
+  animation: cyber-pulse 2s ease-in-out infinite;
+}
+
+/* No-scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
