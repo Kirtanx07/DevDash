@@ -1,0 +1,2 @@
+.no-sl::before  { display: none !important; }
+.no-grid::after { display: none !important; }
